@@ -1079,3 +1079,1174 @@ public class TSP_DP {
 // 8 8 9 0
 //output
 //Minimum travelling cost: 35
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----1 Program to implement binary search algorithm.-----
+
+import java.util.Scanner;
+
+public class BinarySearch {
+
+    public static int binarySearch(int arr[], int key) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == key)
+                return mid;
+            else if (arr[mid] < key)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        int arr[] = new int[n];
+        System.out.println("Enter sorted elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        System.out.print("Enter element to search: ");
+        int key = sc.nextInt();
+
+        int result = binarySearch(arr, key);
+
+        if (result != -1)
+            System.out.println("Element found at index: " + result);
+        else
+            System.out.println("Element not found");
+    }
+}
+---------------------------------------------------------------------------------------------
+
+
+-----2 Program to implement min-max algorithm.-----
+
+import java.util.Scanner;
+
+public class MinMax {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        int arr[] = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        int min = arr[0];
+        int max = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            if (arr[i] < min)
+                min = arr[i];
+
+            if (arr[i] > max)
+                max = arr[i];
+        }
+
+        System.out.println("Minimum element: " + min);
+        System.out.println("Maximum element: " + max);
+    }
+}
+/*Enter number of elements: 5
+Enter elements:
+10 25 3 45 7*/
+
+
+
+write this if they ask recursive algorithm or with time complexity O(b^d)
+
+import java.util.Scanner;
+
+public class min_max_r {
+    static class pair{
+        int min;
+        int max;
+    }
+    static pair findMinMax(int []arr,int i,int j){
+        pair result=new pair();
+        if(i==j){
+            result.min=result.max=arr[i];
+            return result;
+        }
+        if(i==j-1){
+            result.min=Math.min(arr[i],arr[j]);
+            result.max=Math.max(arr[i],arr[j]);
+            return result;
+        }
+        int mid=(i+j)/2;
+        pair left=findMinMax(arr, i, mid);
+        pair right=findMinMax(arr,mid+1, j);
+
+        result.min=Math.min(left.min,right.min);
+        result.max=Math.max(left.max,right.max);
+        return result;
+    }
+    public static void main(String[] args) {
+        Scanner sc =new Scanner(System.in);
+
+        int n=sc.nextInt();
+        int arr[]=new int[n];
+
+        for(int i=0;i<n;i++){
+            arr[i]=sc.nextInt();
+        }
+
+        pair result=findMinMax(arr,0,n-1);
+        System.out.println(result.min + "  "+result.max);
+
+    }
+}
+
+
+--------------------------------------------------------------------------------------------
+
+-----3 Program to implement merge sort algorithm------
+import java.util.Scanner;
+
+public class MergeSort{
+
+    public static void merge(int arr[], int low, int mid, int high) {
+
+        int n1 = mid - low + 1;
+        int n2 = high - mid;
+
+        int left[] = new int[n1];
+        int right[] = new int[n2];
+
+        for (int i = 0; i < n1; i++)
+            left[i] = arr[low + i];
+
+        for (int j = 0; j < n2; j++)
+            right[j] = arr[mid + 1 + j];
+
+        int i = 0, j = 0, k = low;
+
+        while (i < n1 && j < n2) {
+            if (left[i] <= right[j])
+                arr[k++] = left[i++];
+            else
+                arr[k++] = right[j++];
+        }
+
+        while (i < n1)
+            arr[k++] = left[i++];
+
+        while (j < n2)
+            arr[k++] = right[j++];
+    }
+
+    public static void mergeSort(int arr[], int low, int high) {
+        if (low < high) {
+            int mid = (low + high) / 2;
+
+            mergeSort(arr, low, mid);
+            mergeSort(arr, mid + 1, high);
+
+            merge(arr, low, mid, high);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        int arr[] = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        mergeSort(arr, 0, n - 1);
+
+        System.out.println("Sorted array:");
+        for (int i = 0; i < n; i++)
+            System.out.print(arr[i] + " ");
+    }
+}
+
+------------------------------------------------------------------------------------------------
+
+
+
+------ 4    Program to implement quick sort algorithm ----------------------
+import java.util.Scanner;
+
+public class QuickSort {
+
+    public static int partition(int arr[], int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1;
+    }
+
+    public static void quickSort(int arr[], int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        int arr[] = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        quickSort(arr, 0, n - 1);
+
+        System.out.println("Sorted array:");
+        for (int i = 0; i < n; i++)
+            System.out.print(arr[i] + " ");
+    }
+}
+/*Enter number of elements: 5
+Enter elements:
+10 7 8 9 1*/
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+-----------5   Program to implement Strassen’s matrix multiplication.(3x3)-----------------
+import java.util.Scanner;
+
+public class Strassen3x3 {
+
+    static int[][] add(int A[][], int B[][]) {
+        int C[][] = new int[4][4];
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                C[i][j] = A[i][j] + B[i][j];
+        return C;
+    }
+
+    static int[][] subtract(int A[][], int B[][]) {
+        int C[][] = new int[4][4];
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                C[i][j] = A[i][j] - B[i][j];
+        return C;
+    }
+
+    static int[][] strassen(int A[][], int B[][]) {
+
+        int C[][] = new int[4][4];
+
+        int a = A[0][0], b = A[0][1], c = A[1][0], d = A[1][1];
+        int e = B[0][0], f = B[0][1], g = B[1][0], h = B[1][1];
+
+        int p1 = a * (f - h);
+        int p2 = (a + b) * h;
+        int p3 = (c + d) * e;
+        int p4 = d * (g - e);
+        int p5 = (a + d) * (e + h);
+        int p6 = (b - d) * (g + h);
+        int p7 = (a - c) * (e + f);
+
+        C[0][0] = p5 + p4 - p2 + p6;
+        C[0][1] = p1 + p2;
+        C[1][0] = p3 + p4;
+        C[1][1] = p1 + p5 - p3 - p7;
+
+        return C;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int A[][] = new int[4][4];
+        int B[][] = new int[4][4];
+
+        System.out.println("Enter 3x3 Matrix A:");
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                A[i][j] = sc.nextInt();
+
+        System.out.println("Enter 3x3 Matrix B:");
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                B[i][j] = sc.nextInt();
+
+        int C[][] = strassen(A, B);
+
+        System.out.println("Resultant 3x3 Matrix:");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++)
+                System.out.print(C[i][j] + " ");
+            System.out.println();
+        }
+    }
+/*Enter 3x3 Matrix A:
+1 2 3
+4 5 6
+7 8 9
+
+Enter 3x3 Matrix B:
+9 8 7
+6 5 4
+3 2 1*/
+
+Program to implement Strassen’s matrix multiplication.(2x2)
+
+
+
+import java.util.Scanner;
+
+public class StrassenMatrix {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int A[][] = new int[2][2];
+        int B[][] = new int[2][2];
+        int C[][] = new int[2][2];
+
+        System.out.println("Enter elements of Matrix A:");
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
+                A[i][j] = sc.nextInt();
+
+        System.out.println("Enter elements of Matrix B:");
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
+                B[i][j] = sc.nextInt();
+
+        int a = A[0][0], b = A[0][1];
+        int c = A[1][0], d = A[1][1];
+
+        int e = B[0][0], f = B[0][1];
+        int g = B[1][0], h = B[1][1];
+
+        int p1 = a * (f - h);
+        int p2 = (a + b) * h;
+        int p3 = (c + d) * e;
+        int p4 = d * (g - e);
+        int p5 = (a + d) * (e + h);
+        int p6 = (b - d) * (g + h);
+        int p7 = (a - c) * (e + f);
+
+        C[0][0] = p5 + p4 - p2 + p6;
+        C[0][1] = p1 + p2;
+        C[1][0] = p3 + p4;
+        C[1][1] = p1 + p5 - p3 - p7;
+
+        System.out.println("Result Matrix:");
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++)
+                System.out.print(C[i][j] + " ");
+            System.out.println();
+        }
+    }
+}
+/*Enter elements of Matrix A:
+1 2
+3 4
+
+Enter elements of Matrix B:
+5 6
+7 8*/
+
+-----------------------------------------------------------------------------------------
+
+
+------6 Program to implement 0/1 knapsack problem.------
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Knapsack01 {
+    static class Item{
+        int weight;
+        int profit;
+        Item(int w,int p){
+            weight=w;
+            profit=p;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of items: ");
+        int n = sc.nextInt();
+
+        int weight[] = new int[n + 1];
+        int profit[] = new int[n + 1];
+
+        System.out.println("Enter weights:");
+        for (int i = 0; i < n; i++)
+            weight[i] = sc.nextInt();
+
+        System.out.println("Enter profits:");
+        for (int i = 0; i <n ; i++)
+            profit[i] = sc.nextInt();
+
+        System.out.print("Enter knapsack capacity: ");
+        int W = sc.nextInt();
+
+        Item[] items=new Item[n];
+
+        for(int i=0;i<n;i++){
+            items[i]=new Item(weight[i],profit[i]);
+        }
+
+        Arrays.sort(items,(a,b)->Double.compare((double)b.profit/b.weight,(double)a.profit/a.weight));
+        int tprofit=0;
+        for(int i=0;i<n;i++){
+            if(items[i].weight<W){
+                tprofit+=items[i].profit;
+                W-=items[i].weight;
+            }
+        }
+
+        System.out.println(tprofit);
+
+        
+        
+    }
+}
+//input
+// Enter number of items: 7
+// Enter weights:
+// 2 3 5 7 1 4 1
+// Enter profits:
+// 10 5 15 7 6 8 3
+// Enter knapsack capacity: 15
+//output
+//Maximum profit: 42
+
+-------------------------------------------------------------------------------------------------
+
+-----7 Program to implement Job sequencing with deadlines.-----
+
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class jobsequencing {
+    static class Job{
+        int id;
+        int deadline;
+        int profit;
+        Job(int i,int d,int p){
+            id=i;
+            deadline=d;
+            profit=p;
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of jobs: ");
+        int n = sc.nextInt();
+        int[] deadlines=new int[n];
+        int[] profits=new int[n];
+
+        System.out.println("Enter deadlines of jobs: ");
+        for(int i=0;i<n;i++){
+            deadlines[i]=sc.nextInt();
+        }
+
+        System.out.println("Enter profits of jobs: ");
+        for(int i=0;i<n;i++){
+            profits[i]=sc.nextInt();
+        }
+
+        Job jobs[]=new Job[n];
+        for(int i=0;i<n;i++){
+            jobs[i]=new Job(i+1,deadlines[i],profits[i]);
+        }
+
+        int maxdeadline=0;
+        for(Job j:jobs){
+            if(j.deadline>maxdeadline){
+                maxdeadline=j.deadline;
+            }
+        }
+
+        Arrays.sort(jobs,(a,b)->b.profit-a.profit);
+
+        int timeslot[]=new int[maxdeadline];
+        Arrays.fill(timeslot,-1);
+
+        int totalprofits=0;
+
+        System.out.println("Job sequence: ");
+        for(int i=0;i<jobs.length;i++){
+            for(int j=jobs[i].deadline-1;j>=0;j--){
+                if(timeslot[j]==-1){
+                    timeslot[j]=jobs[i].id;
+                    totalprofits+=jobs[i].profit;
+                    break;
+                }
+            }
+        }
+
+        for(int i=0;i<timeslot.length;i++){
+            if(timeslot[i]!=-1){
+                System.out.println("j"+timeslot[i]+" ");
+            }
+        }
+        System.out.println(totalprofits);
+
+    }
+}
+
+
+---------------------------------------------------------------------------------------------
+
+-----8 .Program to implement single source shortest paths applying greedy method.-----
+
+import java.util.Scanner;
+
+public class Dijkstra {
+
+    static final int INF = 9999;
+
+    public static void dijkstra(int graph[][], int n, int source) {
+
+        int dist[] = new int[n];
+        boolean visited[] = new boolean[n];
+
+        // Initialize distances
+        for (int i = 0; i < n; i++) {
+            dist[i] = INF;
+            visited[i] = false;
+        }
+
+        dist[source] = 0;
+
+        for (int count = 0; count < n - 1; count++) {
+
+            // Find minimum distance vertex
+            int min = INF, u = -1;
+
+            for (int i = 0; i < n; i++) {
+                if (!visited[i] && dist[i] < min) {
+                    min = dist[i];
+                    u = i;
+                }
+            }
+
+            visited[u] = true;
+
+            // Update distances of adjacent vertices
+            for (int v = 0; v < n; v++) {
+                if (!visited[v] && graph[u][v] != 0 &&
+                        dist[u] + graph[u][v] < dist[v]) {
+
+                    dist[v] = dist[u] + graph[u][v];
+                }
+            }
+        }
+
+        // Print result
+        System.out.println("Shortest distance from source vertex " + (source + 1));
+        for (int i = 0; i < n; i++) {
+            System.out.println("To vertex " + (i + 1) + " : " + dist[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int n = sc.nextInt();
+
+        int graph[][] = new int[n][n];
+
+        System.out.println("Enter adjacency matrix (0 if no edge):");
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                graph[i][j] = sc.nextInt();
+
+        System.out.print("Enter source vertex (1 to n): ");
+        int source = sc.nextInt();
+
+        dijkstra(graph, n, source - 1);
+    }
+}
+
+input :-
+Enter number of vertices: 5
+Enter adjacency matrix (0 if no edge):
+0 4 2 0 8
+0 0 0 4 5
+0 0 0 1 0
+0 0 0 0 3
+0 0 0 0 0
+Enter source vertex (1 to n): 1
+-------------------------------------------------------------------------------------------------
+
+
+-------9    Program to implement N-Queens problem.--------------------------
+public class NQueens {
+
+    static int N = 4;
+    static int board[][] = new int[N][N];
+
+    static boolean isSafe(int row, int col) {
+
+        // Check column
+        for (int i = 0; i < row; i++)
+            if (board[i][col] == 1)
+                return false;
+
+        // Check left diagonal
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--)
+            if (board[i][j] == 1)
+                return false;
+
+        // Check right diagonal
+        for (int i = row, j = col; i >= 0 && j < N; i--, j++)
+            if (board[i][j] == 1)
+                return false;
+
+        return true;
+    }
+
+    static boolean solve(int row) {
+
+        if (row == N)
+            return true;
+
+        for (int col = 0; col < N; col++) {
+            if (isSafe(row, col)) {
+                board[row][col] = 1;
+
+                if (solve(row + 1))
+                    return true;
+
+                board[row][col] = 0; // backtrack
+            }
+        }
+        return false;
+    }
+
+    static void printBoard() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++)
+                System.out.print(board[i][j] + " ");
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+
+        if (solve(0)) {
+            System.out.println("Solution exists:");
+            printBoard();
+        } else {
+            System.out.println("No solution");
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------
+
+
+
+-----------------------------Program to implement sum of subsets.
+import java.util.Scanner;
+
+public class SumOfSubsets {
+
+    static int n;
+    static int set[];
+    static int target;
+    static int subset[];
+
+    static void sumSubset(int index, int currentSum) {
+
+        if (currentSum == target) {
+            System.out.print("Subset: ");
+            for (int i = 0; i < index; i++)
+                if (subset[i] == 1)
+                    System.out.print(set[i] + " ");
+            System.out.println();
+            return;
+        }
+
+        if (index == n || currentSum > target)
+            return;
+
+        // Include the element
+        subset[index] = 1;
+        sumSubset(index + 1, currentSum + set[index]);
+
+        // Exclude the element
+        subset[index] = 0;
+        sumSubset(index + 1, currentSum);
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        n = sc.nextInt();
+
+        set = new int[n];
+        subset = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++)
+            set[i] = sc.nextInt();
+
+        System.out.print("Enter target sum: ");
+        target = sc.nextInt();
+
+        sumSubset(0, 0);
+    }
+}
+/*Enter number of elements: 4
+Enter elements:
+1 2 3 4
+Enter target sum: 5*/
+
+
+----------------------------------------------------------------------------------------------------
+
+-----11. Program to implement Single source shortest paths problem using dynamic programming.-----
+
+import java.util.Scanner;
+
+public class BellmanFord {
+    static class Edge {
+        int src, dest, weight;
+    }
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int V = sc.nextInt();
+
+        System.out.print("Enter number of edges: ");
+        int E = sc.nextInt();
+
+        Edge edges[] = new Edge[E];
+
+        for (int i = 0; i < E; i++) {
+            edges[i] = new Edge();
+            System.out.print("Enter src, dest, weight: ");
+            edges[i].src = sc.nextInt();
+            edges[i].dest = sc.nextInt();
+            edges[i].weight = sc.nextInt();
+        }
+
+        System.out.print("Enter source vertex: ");
+        int source = sc.nextInt();
+
+        int dist[] = new int[V];
+
+        // Initialize distances
+        for (int i = 0; i < V; i++)
+            dist[i] = 9999;
+
+        dist[source] = 0;
+
+        // Relax edges V-1 times
+        for (int i = 1; i < V; i++) {
+            for (int j = 0; j < E; j++) {
+                int u = edges[j].src;
+                int v = edges[j].dest;
+                int w = edges[j].weight;
+
+                if (dist[u] != 9999 && dist[u] + w < dist[v]) {
+                    dist[v] = dist[u] + w;
+                }
+            }
+        }
+
+        // Print result
+        System.out.println("Shortest distances from source:");
+        for (int i = 0; i < V; i++)
+            System.out.println("Vertex " + i + " : " + dist[i]);
+    }
+}
+//input
+// Enter number of vertices: 5
+// Enter number of edges: 8
+// Enter src, dest, weight:
+// 0 1 4
+// 0 2 2
+// 1 3 4
+// 2 3 1
+// 3 4 3
+// 1 4 5
+// 0 4 8
+// 2 1 1
+// Enter source vertex: 0
+
+//ouput
+// Vertex 0 : 0
+// Vertex 1 : 3
+// Vertex 2 : 2
+// Vertex 3 : 3
+// Vertex 4 : 6
+
+------------------------------------------------------------------------------------
+
+------12  Program to implement Multistage graph algorithm and find shortest path.------
+
+public class MultistageGraph {
+
+    static final int INF = 9999;
+
+    public static void main(String[] args) {
+
+        int n = 12; // number of vertices
+
+        // Cost matrix
+        int cost[][] = {
+            {INF, 9, 7, 3, 2, INF, INF, INF, INF, INF, INF, INF},
+            {INF, INF, INF, INF, INF, 4, 2, 1, INF, INF, INF, INF},
+            {INF, INF, INF, INF, INF, 2, 7, INF, INF, INF, INF, INF},
+            {INF, INF, INF, INF, INF, INF, 3, 11, INF, INF, INF, INF},
+            {INF, INF, INF, INF, INF, INF, INF, 11, INF, INF, INF, INF},
+            {INF, INF, INF, INF, INF, INF, INF, INF, 6, INF, INF, INF},
+            {INF, INF, INF, INF, INF, INF, INF, INF, 4, 3, INF, INF},
+            {INF, INF, INF, INF, INF, INF, INF, INF, INF, 5, 6, INF},
+            {INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, 4},
+            {INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, 2},
+            {INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, 5},
+            {INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF, INF}
+        };
+
+        int dist[] = new int[n];
+        int path[] = new int[n];
+
+        // Initialize
+        dist[n - 1] = 0;
+
+        // Compute shortest path
+        for (int i = n - 2; i >= 0; i--) {
+            dist[i] = INF;
+            for (int j = i + 1; j < n; j++) {
+                if (cost[i][j] != INF && cost[i][j] + dist[j] < dist[i]) {
+                    dist[i] = cost[i][j] + dist[j];
+                    path[i] = j;
+                }
+            }
+        }
+
+        // Print shortest distance
+        System.out.println("Shortest path cost from source to destination: " + dist[0]);
+
+        // Print path
+        System.out.print("Shortest path: 1 ");
+        int i = 0;
+        while (i != n - 1) {
+            i = path[i];
+            System.out.print("-> " + (i + 1) + " ");
+        }
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+-----13. Apply All pairs shortest paths algorithm and find shortest path-----
+
+import java.util.Scanner;
+
+public class FloydWarshall {
+
+    static final int INF = 9999;
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int n = sc.nextInt();
+
+        int dist[][] = new int[n][n];
+
+        System.out.println("Enter adjacency matrix:");
+        System.out.println("(Enter 9999 if no edge)");
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dist[i][j] = sc.nextInt();
+            }
+        }
+
+        // Floyd Warshall Algorithm
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+
+                }
+            }
+        }
+
+        // Print result
+        System.out.println("\nShortest distance matrix:");
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dist[i][j] == INF)
+                    System.out.print("INF ");
+                else
+                    System.out.print(dist[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+/*Enter number of vertices: 4
+Enter adjacency matrix:
+0 5 9999 10
+9999 0 3 9999
+9999 9999 0 1
+9999 9999 9999 0 */
+
+---------------------------------------------------------------------------------------------------
+
+
+------14    Program to implement Optimal binary search trees---------------------------
+import java.util.Scanner;
+
+public class OptimalBST {
+
+    static final int MAX = 20;
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of keys: ");
+        int n = sc.nextInt();
+
+        int keys[] = new int[n + 1];
+        float p[] = new float[n + 1];
+        float q[] = new float[n + 1];
+        float w[][] = new float[MAX][MAX];
+        float c[][] = new float[MAX][MAX];
+        int r[][] = new int[MAX][MAX];
+
+        System.out.println("Enter keys:");
+        for (int i = 1; i <= n; i++)
+            keys[i] = sc.nextInt();
+
+        System.out.println("Enter successful search probabilities (p):");
+        for (int i = 1; i <= n; i++)
+            p[i] = sc.nextFloat();
+
+        System.out.println("Enter unsuccessful search probabilities (q):");
+        for (int i = 0; i <= n; i++)
+            q[i] = sc.nextFloat();
+
+        // Initialization
+        for (int i = 0; i <= n; i++) {
+            w[i][i] = q[i];
+            c[i][i] = 0;
+            r[i][i] = 0;
+        }
+
+        // Dynamic Programming
+        for (int i = 0; i < n; i++) {
+            w[i][i + 1] = q[i] + q[i + 1] + p[i + 1];
+            c[i][i + 1] = w[i][i + 1];
+            r[i][i + 1] = i + 1;
+        }
+
+        for (int m = 2; m <= n; m++) {
+            for (int i = 0; i <= n - m; i++) {
+                int j = i + m;
+                w[i][j] = w[i][j - 1] + p[j] + q[j];
+                c[i][j] = Float.MAX_VALUE;
+
+                for (int k = i + 1; k <= j; k++) {
+                    float cost = c[i][k - 1] + c[k][j];
+                    if (cost < c[i][j]) {
+                        c[i][j] = cost;
+                        r[i][j] = k;
+                    }
+                }
+                c[i][j] += w[i][j];
+            }
+        }
+
+        // Output
+        System.out.println("\nOptimal Binary Search Tree Results:");
+        System.out.println("Minimum cost: " + c[0][n]);
+        System.out.println("Root of OBST: Key " + keys[r[0][n]]);
+    }
+}
+//input
+// Enter number of keys: 3
+// Enter keys:
+// 10 20 30
+// Enter successful search probabilities (p):
+// 0.3 0.2 0.1
+// Enter unsuccessful search probabilities (q):
+// 0.1 0.1 0.1 0.1
+
+//ouput
+// Optimal Binary Search Tree Results:
+// Minimum cost: 1.7
+// Root of OBST: Key 20
+
+
+----------------------------------------------------------------------------------------------
+
+-----------15   Apply travelling sales person algorithm using dynamic programming and find shortest path--------------------
+public class TSP {
+
+    public static void main(String[] args) {
+        int n = 4;
+
+        int[][] dist = {
+            {0, 10, 15, 20},
+            {10, 0, 35, 25},
+            {15, 35, 0, 30},
+            {20, 25, 30, 0}
+        };
+
+        boolean[] visited = new boolean[n];
+        int totalCost = 0;
+
+        int currentCity = 0;
+        visited[currentCity] = true;
+
+        System.out.print("Path: " + (currentCity+1));
+
+        for (int count = 1; count < n; count++) {
+            int nextCity = -1;
+            int minCost = Integer.MAX_VALUE;
+
+            for (int j = 0; j < n; j++) {
+                if (!visited[j] && dist[currentCity][j] != 0 && dist[currentCity][j] < minCost) {
+                    minCost = dist[currentCity][j];
+                    nextCity = j;
+                }
+            }
+
+            visited[nextCity] = true;
+            totalCost += minCost;
+            System.out.print(" -> " + (nextCity+1));
+            currentCity = nextCity;
+        }
+
+        totalCost += dist[currentCity][0];
+        System.out.print(" -> 1");
+
+        System.out.println("\nTotal cost: " + totalCost);
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------
+
+--------16   Apply travelling salesperson algorithm using branch and bound and find shortest path-----------------
+import java.util.Scanner;
+
+public class TSP_BB {
+
+    static int n;
+    static int[][] cost;
+    static boolean[] visited;
+    static int minCost = Integer.MAX_VALUE;
+
+    static void tsp(int city, int count, int currCost) {
+
+        if (count == n && cost[city][0] > 0) {
+            minCost = Math.min(minCost, currCost + cost[city][0]);
+            return;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i] && cost[city][i] > 0) {
+
+                int tempCost = currCost + cost[city][i];
+
+                if (tempCost < minCost) {
+                    visited[i] = true;
+                    tsp(i, count + 1, tempCost);
+                    visited[i] = false;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of cities: ");
+        n = sc.nextInt();
+
+        cost = new int[n][n];
+        visited = new boolean[n];
+
+        System.out.println("Enter cost matrix:");
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                cost[i][j] = sc.nextInt();
+
+        visited[0] = true;
+        tsp(0, 1, 0);
+
+        System.out.println("Minimum travelling cost (Branch & Bound): " + minCost);
+    }
+}
+//input
+//5
+// 9999 20 30 10 11
+// 15 9999 16 4 2
+// 3 5 9999 2 4
+// 19 6 18 9999 3
+// 16 4 7 16 9999
